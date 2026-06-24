@@ -40,8 +40,8 @@ export default function App() {
         {/* Header */}
         <header className="border-b border-border px-6 py-4 flex items-center justify-between">
           <div>
-            <h1 className="text-lg font-bold tracking-tight">Spine Animator</h1>
-            <p className="text-xs text-gray-600 mt-0.5">Create basic animations for game UI</p>
+            <h1 className="text-lg font-bold tracking-tight">Particle Generator</h1>
+            <p className="text-xs text-gray-600 mt-0.5">Create particle effects for game UI</p>
           </div>
           {/* <ModeSelector /> — hidden, particle FX only for now */}
         </header>
