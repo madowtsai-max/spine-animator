@@ -210,6 +210,53 @@ export function ParticleControls() {
             />
           </Section>
 
+          <Section label="Lines">
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-gray-400 w-12 shrink-0">Enable</span>
+              <button
+                onClick={() => setParams({ linesEnabled: !(p.linesEnabled ?? false) })}
+                className={`relative w-10 h-5 rounded-full transition-colors ${p.linesEnabled ? 'bg-accent' : 'bg-surface-3'}`}
+              >
+                <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all ${p.linesEnabled ? 'left-5' : 'left-1'}`} />
+              </button>
+              <span className="text-xs text-gray-600">{p.linesEnabled ? 'on' : 'off'}</span>
+            </div>
+            {p.linesEnabled && <>
+              <ParamSlider label="Dist"    value={p.lineDistance ?? 100} min={20}  max={250} step={5}    fmt={(v) => `${v}px`}              onChange={(v) => setParams({ lineDistance: v })} />
+              <ParamSlider label="Opacity" value={p.lineOpacity  ?? 0.4} min={0.1} max={1}   step={0.05} fmt={(v) => `${Math.round(v*100)}%`} onChange={(v) => setParams({ lineOpacity: v })} />
+              <ParamSlider label="Width"   value={p.lineWidth    ?? 1}   min={0.5} max={4}   step={0.5}  fmt={(v) => `${v}px`}              onChange={(v) => setParams({ lineWidth: v })} />
+              <ColorRow label="Color" value={`#${p.lineColor ?? 'ffffff'}`} onChange={(hex) => setParams({ lineColor: hex.replace('#', '') })} />
+            </>}
+          </Section>
+
+          <Section label="Mouse">
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-gray-400 w-12 shrink-0">Mode</span>
+              <div className="flex gap-1 flex-1">
+                {(['none', 'repulse', 'attract'] as const).map((m) => (
+                  <button key={m} onClick={() => setParams({ mouseMode: m })}
+                    className={`flex-1 py-1 rounded-lg text-xs font-medium capitalize transition-all ${(p.mouseMode ?? 'none') === m ? 'bg-accent text-white' : 'bg-surface-3 text-gray-500 hover:text-white'}`}>
+                    {m}
+                  </button>
+                ))}
+              </div>
+            </div>
+            {(p.mouseMode ?? 'none') !== 'none' && <>
+              <ParamSlider label="Radius"   value={p.mouseRadius   ?? 120} min={20} max={250} step={5}  fmt={(v) => `${v}px`} onChange={(v) => setParams({ mouseRadius: v })} />
+              <ParamSlider label="Strength" value={p.mouseStrength ?? 60}  min={10} max={200} step={5}  fmt={(v) => `${v}`}   onChange={(v) => setParams({ mouseStrength: v })} />
+            </>}
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-gray-400 w-12 shrink-0">Click</span>
+              <button
+                onClick={() => setParams({ mouseClick: !(p.mouseClick ?? false) })}
+                className={`relative w-10 h-5 rounded-full transition-colors ${p.mouseClick ? 'bg-accent' : 'bg-surface-3'}`}
+              >
+                <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all ${p.mouseClick ? 'left-5' : 'left-1'}`} />
+              </button>
+              <span className="text-xs text-gray-600">{p.mouseClick ? 'burst on click' : 'off'}</span>
+            </div>
+          </Section>
+
           <Section label="Color">
             <ColorRow
               label="Tint Start"

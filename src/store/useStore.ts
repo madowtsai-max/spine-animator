@@ -71,6 +71,8 @@ export const useStore = create<AppState>((set) => ({
     gravity: 0, spinSpeed: 0,
     tintStart: 'ffffff', tintEnd: 'ffffff', blendMode: 'normal' as const,
     emitX: 0, emitY: 0, emitRadius: 8,
+    linesEnabled: false, lineDistance: 100, lineColor: 'ffffff', lineOpacity: 0.4, lineWidth: 1,
+    mouseMode: 'none' as const, mouseRadius: 120, mouseStrength: 60, mouseClick: false,
   },
 
   setMode: (mode) => set({ mode, category: null, selectedTemplate: null }),

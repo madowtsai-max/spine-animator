@@ -19,6 +19,17 @@ export interface ParticleParams {
   emitX?: number          // X offset from canvas center in px (default 0)
   emitY?: number          // Y offset from canvas center in px (default 0)
   emitRadius?: number     // spawn circle radius in px (default 8)
+  // Lines
+  linesEnabled?: boolean  // draw connections between nearby particles
+  lineDistance?: number   // max distance to draw a line (default 100)
+  lineColor?: string      // hex without # (default 'ffffff')
+  lineOpacity?: number    // max line opacity (default 0.4)
+  lineWidth?: number      // line width px (default 1)
+  // Mouse
+  mouseMode?: 'none' | 'repulse' | 'attract'
+  mouseRadius?: number    // effect radius in px (default 120)
+  mouseStrength?: number  // force strength (default 60)
+  mouseClick?: boolean    // burst particles on click
 }
 
 export interface ParticlePresetDef {
@@ -255,5 +266,27 @@ export function buildEmitterConfig(presetId: string, params: ParticleParams, tex
 
     default:
       return null
+  }
+}
+
+export function buildClickBurst(textures: PIXI.Texture[], params: ParticleParams) {
+  const s = params.speed
+  const l = params.lifetime * 0.5
+  const sz = params.size * 0.7
+  return {
+    lifetime: { min: l * 0.4, max: l },
+    frequency: 0.001,
+    emitterLifetime: 0.05,
+    maxParticles: 15,
+    addAtBack: false,
+    pos: { x: 0, y: 0 },
+    behaviors: [
+      resolveTextureBehavior(textures, s),
+      alphaBehavior(params.alphaStart ?? 1, params.alphaEnd ?? 0),
+      scaleBehavior(sz, 0),
+      speedBehavior(s * 180, s * 20),
+      rotationBehavior(0, 360),
+      pointSpawn(4),
+    ],
   }
 }
